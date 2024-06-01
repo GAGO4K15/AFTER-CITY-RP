@@ -13,17 +13,36 @@
 -->   
 <!doctype html>
 <html lang="hu">
-   <head>
-      <meta charset="utf-8">
-      <meta name="description" content="">
-      <meta name="viewport" content="width=device-width,initial-scale=1">
-      <link rel="apple-touch-icon" href="apple-touch-icon.png">
-      <link rel="icon" href="favicon.ico">
-      <link href="https://fonts.googleapis.com/css?family=Poppins:100,300,400,700,900" rel="stylesheet">
-      <link href="https://fonts.googleapis.com/css?family=Caveat" rel="stylesheet">
-      <title>💚 | After City Roleplay</title>
-      <link rel="stylesheet" href="css\cr_style.css">
-   </head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>💚 | After City Roleplay</title>
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link rel="icon" href="favicon.ico">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,300,400,700,900" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Caveat" rel="stylesheet">
+    <link rel="stylesheet" href="css\cr_style.css">
+</head>
+<body>
+    <!-- Seu conteúdo HTML aqui -->
+    <audio id="bg_music" autoplay loop>
+        <source src="audio/aftercity.mp3">
+    </audio>
+
+    <script>
+        var audio = document.getElementById("bg_music");
+        var playlist = ["audio/aftercity.mp3"]; // Lista de músicas
+
+        audio.addEventListener('ended', function() {
+            // Troca para a próxima música na playlist
+            var nextIndex = Math.floor(Math.random() * playlist.length); // Gera um índice aleatório
+            audio.src = playlist[nextIndex]; // Define a próxima música
+            audio.play(); // Inicia a reprodução
+        });
+    </script>
+</body>
+</html>
    <body>
       <nav class="st-nav navbar main-nav navigation fixed-top" id="main-nav">
          <div class="container">
