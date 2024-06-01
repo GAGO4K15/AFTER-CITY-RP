@@ -63,17 +63,32 @@
             to { transform: rotate(360deg); }
         }
 
+        /* Estilo para o botão de controle do painel de música */
+        #toggle-music-btn {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            border-radius: 10px;
+            cursor: pointer;
+            z-index: 9999;
+        }
+
         /* Estilo para o reprodutor de música */
         #music-player {
             position: fixed;
-            top: 80px; /* Posição a partir do topo da tela */
-            right: 20px;
+            top: 80px;
+            right: 70px; /* Ajustado para o botão */
             background-color: #333;
             padding: 10px;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             width: 250px;
             z-index: 9999;
+            display: none; /* Inicialmente oculto */
         }
 
         #music-controls {
@@ -120,6 +135,32 @@
         #playlist li:hover {
             color: #ddd;
         }
+
+        #music-progress {
+            width: 100%;
+            height: 10px;
+            background-color: #444;
+            border-radius: 5px;
+            margin-top: 10px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        #music-progress-bar {
+            width: 0;
+            height: 100%;
+            background-color: #0f6ab4;
+            transition: width 0.1s linear;
+        }
+
+        /* Estilo para o tempo da música */
+        #music-time {
+            display: flex;
+            justify-content: space-between;
+            color: #fff;
+            font-size: 12px;
+            margin-top: 5px;
+        }
     </style>
 </head>
 <body>
@@ -128,6 +169,9 @@
         <div class="spinner"></div>
         <img src="images/logo.png" alt="After City Roleplay Logo" class="logo">
     </div>
+
+    <!-- Botão para alternar o painel de música -->
+    <button id="toggle-music-btn">🎵</button>
 
     <!-- Reprodutor de música -->
     <div id="music-player">
@@ -143,6 +187,11 @@
             <li data-src="audio/musica2.mp3">Música 2</li>
             <li data-src="audio/musica3.mp3">Música 3</li>
         </ul>
+        <!-- Tempo da música -->
+        <div id="music-time">
+            <span id="current-time">0:00</span>
+            <span id="duration-time">0:00</span>
+        </div>
         <!-- Barra de progresso da música -->
         <div id="music-progress">
             <div id="music-progress-bar"></div>
@@ -158,14 +207,26 @@
             const prevBtn = document.getElementById('prev-btn');
             const volumeControl = document.getElementById('volume-control');
             const progressBar = document.getElementById('music-progress-bar');
+            const musicPlayer = document.getElementById('music-player');
+            const toggleMusicBtn = document.getElementById('toggle-music-btn');
+            const musicProgress = document.getElementById('music-progress');
+            const currentTimeSpan = document.getElementById('current-time');
+            const durationTimeSpan = document.getElementById('duration-time');
 
             let currentTrack = 0;
+
+            function formatTime(seconds) {
+                const min = Math.floor(seconds / 60);
+                const sec = Math.floor(seconds % 60);
+                return `${min}:${sec < 10 ? '0' : ''}${sec}`;
+            }
 
             function playTrack(index) {
                 const track = playlist.children[index];
                 audioPlayer.src = track.dataset.src;
                 audioPlayer.play();
                 currentTrack = index;
+                playBtn.innerHTML = '⏸️'; // Atualiza o botão de play/pausa para ⏸️
             }
 
             playBtn.addEventListener('click', function () {
@@ -202,14 +263,32 @@
             audioPlayer.addEventListener('timeupdate', function () {
                 const progress = (audioPlayer.currentTime / audioPlayer.duration) * 100;
                 progressBar.style.width = progress + '%';
+                currentTimeSpan.textContent = formatTime(audioPlayer.currentTime);
+                durationTimeSpan.textContent = formatTime(audioPlayer.duration);
             });
 
-            // Iniciar com a primeira música
-            playTrack(0);
+            musicProgress.addEventListener('click', function (event) {
+                const rect = musicProgress.getBoundingClientRect();
+                const offsetX = event.clientX - rect.left;
+                const duration = audioPlayer.duration;
+                audioPlayer.currentTime = (offsetX / rect.width) * duration;
+                audioPlayer.currentTime = (offsetX / rect.width) * duration;
+            });
 
-            // Esconder a tela de carregamento após o carregamento completo
-            const loader = document.getElementById('loader');
+            toggleMusicBtn.addEventListener('click', function () {
+                if (musicPlayer.style.display === 'none' || musicPlayer.style.display === '') {
+                    musicPlayer.style.display = 'block';
+                } else {
+                    musicPlayer.style.display = 'none';
+                }
+            });
+
+            // Iniciar a reprodução da primeira faixa
+            playTrack(currentTrack);
+
+            // Ocultar a tela de carregamento após a página carregar
             window.addEventListener('load', function () {
+                const loader = document.getElementById('loader');
                 loader.classList.add('hidden');
             });
         });
