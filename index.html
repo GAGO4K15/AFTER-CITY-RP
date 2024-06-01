@@ -44,30 +44,6 @@
         <source src="audio/aftercity.mp3" type="audio/mpeg">
         Seu navegador não suporta o elemento de áudio.
     </audio>
-
-    <script>
-        var audio = document.getElementById("bg_music");
-        var playlist = [
-            "audio/aftercity.mp3",
-            "audio/outra_musica.mp3",
-            "audio/mais_uma_musica.mp3"
-        ]; // Lista de músicas
-
-        audio.addEventListener('ended', function() {
-            // Troca para a próxima música na playlist
-            var nextIndex = Math.floor(Math.random() * playlist.length); // Gera um índice aleatório
-            audio.src = playlist[nextIndex]; // Define a próxima música
-            audio.play(); // Inicia a reprodução
-        });
-
-        // Pré-carregamento de áudio
-        for (var i = 0; i < playlist.length; i++) {
-            var preloadAudio = new Audio();
-            preloadAudio.src = playlist[i];
-        }
-    </script>
-</body>
-</html>
    <body>
       <nav class="st-nav navbar main-nav navigation fixed-top" id="main-nav">
          <div class="container">
