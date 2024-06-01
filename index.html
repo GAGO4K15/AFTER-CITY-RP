@@ -12,6 +12,7 @@
     Owner and Customer: caseRoleplay (2020) 
 -->   
 <!doctype html>
+<!DOCTYPE html>
 <html lang="hu">
 <head>
     <meta charset="UTF-8">
@@ -24,25 +25,10 @@
     <link href="https://fonts.googleapis.com/css?family=Caveat" rel="stylesheet">
     <link rel="stylesheet" href="css\cr_style.css">
 </head>
-<body>
-    <!-- Seu conteúdo HTML aqui -->
-    <audio id="bg_music" autoplay loop>
-        <source src="audio/aftercity.mp3">
-    </audio>
-
-    <script>
-        var audio = document.getElementById("bg_music");
-        var playlist = ["audio/aftercity.mp3"]; // Lista de músicas
-
-        audio.addEventListener('ended', function() {
-            // Troca para a próxima música na playlist
-            var nextIndex = Math.floor(Math.random() * playlist.length); // Gera um índice aleatório
-            audio.src = playlist[nextIndex]; // Define a próxima música
-            audio.play(); // Inicia a reprodução
-        });
-    </script>
-</body>
-</html>
+<audio autoplay loop>
+   <source src="audio/aftercity.mp3" type="audio/mpeg">
+   Seu navegador não suporta o elemento de áudio.
+ </audio> 
    <body>
       <nav class="st-nav navbar main-nav navigation fixed-top" id="main-nav">
          <div class="container">
