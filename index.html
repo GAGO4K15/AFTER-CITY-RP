@@ -55,40 +55,167 @@
         }
 
         .logo {
-            width: 150px; /* Ajuste o tamanho do logo conforme necessário */
+            width: 100px; /* Ajuste o tamanho do logo conforme necessário */
             height: auto;
         }
 
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
+
+        /* Estilo para o reprodutor de música */
+        #music-player {
+            position: fixed;
+            top: 80px; /* Posição a partir do topo da tela */
+            right: 20px;
+            background-color: #333;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 250px;
+            z-index: 9999;
+        }
+
+        #music-controls {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        #music-controls button {
+            background-color: transparent;
+            border: none;
+            color: #fff;
+            font-size: 20px;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        #music-controls button:hover {
+            color: #ddd;
+        }
+
+        #volume-control {
+            width: 100px;
+        }
+
+        #playlist {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        #playlist li {
+            margin-top: 5px;
+            cursor: pointer;
+            color: #fff;
+            font-size: 14px;
+            transition: color 0.3s;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            max-width: 150px; /* Limitando a largura do nome da música */
+        }
+
+        #playlist li:hover {
+            color: #ddd;
+        }
     </style>
 </head>
 <body>
-    <!-- Conteúdo do seu site aqui -->
-
     <!-- Tela de carregamento -->
     <div id="loader">
         <div class="spinner"></div>
-        <img src="images/logo.png" alt="After City Roleplay Logo" class="logo hidden">
+        <img src="images/logo.png" alt="After City Roleplay Logo" class="logo">
     </div>
 
-    <!-- Script para remover a tela de carregamento após o carregamento completo -->
-    <script>
-        window.addEventListener('load', function () {
-            var loader = document.getElementById('loader');
-            loader.classList.add('hidden'); // Adiciona a classe 'hidden' para esconder a tela de carregamento
+    <!-- Reprodutor de música -->
+    <div id="music-player">
+        <audio id="audio-player" controls autoplay style="display: none;"></audio>
+        <div id="music-controls">
+            <button id="prev-btn">⏪</button>
+            <button id="play-btn">▶️</button>
+            <button id="next-btn">⏩</button>
+            <input type="range" id="volume-control" min="0" max="1" step="0.01" value="1">
+        </div>
+        <ul id="playlist">
+            <li data-src="audio/musica1.mp3">Música 1</li>
+            <li data-src="audio/musica2.mp3">Música 2</li>
+            <li data-src="audio/musica3.mp3">Música 3</li>
+        </ul>
+        <!-- Barra de progresso da música -->
+        <div id="music-progress">
+            <div id="music-progress-bar"></div>
+        </div>
+    </div>
 
-            // Mostra o logo do After City após 5 segundos do término do carregamento
-            setTimeout(function () {
-                var logo = document.querySelector('.logo');
-                logo.classList.remove('hidden');
-            }, 5000);
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const audioPlayer = document.getElementById('audio-player');
+            const playlist = document.getElementById('playlist');
+            const playBtn = document.getElementById('play-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const prevBtn = document.getElementById('prev-btn');
+            const volumeControl = document.getElementById('volume-control');
+            const progressBar = document.getElementById('music-progress-bar');
+
+            let currentTrack = 0;
+
+            function playTrack(index) {
+                const track = playlist.children[index];
+                audioPlayer.src = track.dataset.src;
+                audioPlayer.play();
+                currentTrack = index;
+            }
+
+            playBtn.addEventListener('click', function () {
+                if (audioPlayer.paused) {
+                    audioPlayer.play();
+                    playBtn.innerHTML = '⏸️';
+                } else {
+                    audioPlayer.pause();
+                    playBtn.innerHTML = '▶️';
+                }
+            });
+
+            nextBtn.addEventListener('click', function () {
+                currentTrack = (currentTrack + 1) % playlist.children.length;
+                playTrack(currentTrack);
+            });
+
+            prevBtn.addEventListener('click', function () {
+                currentTrack = (currentTrack - 1 + playlist.children.length) % playlist.children.length;
+                playTrack(currentTrack);
+            });
+
+            playlist.addEventListener('click', function (event) {
+                if (event.target.tagName === 'LI') {
+                    const index = Array.from(playlist.children).indexOf(event.target);
+                    playTrack(index);
+                }
+            });
+
+            volumeControl.addEventListener('input', function () {
+                audioPlayer.volume = volumeControl.value;
+            });
+
+            audioPlayer.addEventListener('timeupdate', function () {
+                const progress = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+                progressBar.style.width = progress + '%';
+            });
+
+            // Iniciar com a primeira música
+            playTrack(0);
+
+            // Esconder a tela de carregamento após o carregamento completo
+            const loader = document.getElementById('loader');
+            window.addEventListener('load', function () {
+                loader.classList.add('hidden');
+            });
         });
     </script>
 </body>
 </html>
-   <body>
       <nav class="st-nav navbar main-nav navigation fixed-top" id="main-nav">
          <div class="container">
             <ul class="st-nav-menu nav navbar-nav">
