@@ -11,7 +11,6 @@
     Framework: Bootstrap 4 
     Owner and Customer: caseRoleplay (2020) 
 -->   
-<!doctype html>
 <!DOCTYPE html>
 <html lang="hu">
 <head>
@@ -24,26 +23,71 @@
     <link href="https://fonts.googleapis.com/css?family=Poppins:100,300,400,700,900" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Caveat" rel="stylesheet">
     <link rel="stylesheet" href="css\cr_style.css">
-</head>
-<!DOCTYPE html>
-<html lang="hu">
-<head>
-    <meta charset="UTF-8">
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>💚 | After City Roleplay</title>
-    <link rel="apple-touch-icon" href="apple-touch-icon.png">
-    <link rel="icon" href="favicon.ico">
-    <link href="https://fonts.googleapis.com/css?family=Poppins:100,300,400,700,900" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Caveat" rel="stylesheet">
-    <link rel="stylesheet" href="css\cr_style.css">
+    <style>
+        /* Estilo para a tela de carregamento */
+        #loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #0f6ab4, #04bf8a); /* Fundo de gradiente */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999; /* Certifique-se de que está na frente de todos os outros elementos */
+            opacity: 1;
+            transition: opacity 0.5s ease-in-out; /* Efeito de transição suave */
+        }
+
+        #loader.hidden {
+            opacity: 0;
+            pointer-events: none; /* Impede que os cliques passem pela tela de carregamento quando estiver invisível */
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #ffffff; /* Cor do spinner */
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 1s linear infinite;
+        }
+
+        .logo {
+            width: 150px; /* Ajuste o tamanho do logo conforme necessário */
+            height: auto;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
 </head>
 <body>
-    <!-- Seu conteúdo HTML aqui -->
-    <audio id="bg_music" autoplay loop>
-        <source src="audio/aftercity.mp3" type="audio/mpeg">
-        Seu navegador não suporta o elemento de áudio.
-    </audio>
+    <!-- Conteúdo do seu site aqui -->
+
+    <!-- Tela de carregamento -->
+    <div id="loader">
+        <div class="spinner"></div>
+        <img src="images/logo.png" alt="After City Roleplay Logo" class="logo hidden">
+    </div>
+
+    <!-- Script para remover a tela de carregamento após o carregamento completo -->
+    <script>
+        window.addEventListener('load', function () {
+            var loader = document.getElementById('loader');
+            loader.classList.add('hidden'); // Adiciona a classe 'hidden' para esconder a tela de carregamento
+
+            // Mostra o logo do After City após 5 segundos do término do carregamento
+            setTimeout(function () {
+                var logo = document.querySelector('.logo');
+                logo.classList.remove('hidden');
+            }, 5000);
+        });
+    </script>
+</body>
+</html>
    <body>
       <nav class="st-nav navbar main-nav navigation fixed-top" id="main-nav">
          <div class="container">
